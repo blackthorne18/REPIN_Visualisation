@@ -60,15 +60,21 @@ def main():
     s_frame = tk.Frame(root, bg=blue)
     s_frame.place(relwidth=0.35,relheight=1,relx=0)
     
-    slab=tk.Label(s_frame,text="Search REPIN by location")
+    slab=tk.Label(s_frame,text="Search REPIN by flanking Genes")
     slab.place(relx=0.1,rely=0.04,relwidth=0.7,relheight=0.05)
     
     #Search Entry
-    sbox=tk.Entry(s_frame,font=40)
-    sbox.place(relx=0.1,rely=0.1,relwidth=0.7,relheight=0.05)
+    sbox1=tk.Entry(s_frame,font=40)
+    sbox1.place(relx=0.09,rely=0.1,relwidth=0.35,relheight=0.05)
     
-    go_button = tk.Button(s_frame,text="Generate Tree",font=40,command= lambda:generate(sbox.get()))
-    go_button.place(relx=0.25,rely=0.2)
+    go_button1 = tk.Button(s_frame,text="Set GeneA",font=40,command= lambda:generate(sbox1.get()))
+    go_button1.place(relx=0.12,rely=0.16)
+    
+    sbox2=tk.Entry(s_frame,font=40)
+    sbox2.place(relx=0.46,rely=0.1,relwidth=0.35,relheight=0.05)
+    
+    go_button2 = tk.Button(s_frame,text="Set GeneB",font=40,command= lambda:generate(sbox2.get()))
+    go_button2.place(relx=0.49,rely=0.16)
     ##Till Here
     
     #Adding Frame for Tree Image
@@ -77,6 +83,7 @@ def main():
     tree_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
     tree_frame.place(relx=0.4,rely=0.05,relheight=0.9,relwidth=0.55)
     
+    
     #Adding main Image
     gentree=ImageTk.PhotoImage(Image.open("gentree.jpg"))
     #gentree=tk.PhotoImage(file='gentree.jpg')
@@ -84,6 +91,12 @@ def main():
     g_label.image=gentree
     g_label.place(relwidth=1,relheight=1)
     
+    #Tree Title
+    canopy1 = tk.Label(tree_frame,text="Pseudomonas chlororaphis REPINs Clade",font=("Courier", 20))
+    canopy1.place(relx=0.12,rely=0.04)
+    
+    canopy2 = tk.Label(s_frame,text=f"Footnote:\nRed Dot-> Lost in evolution\nGreen Dot-> Gained in evolution",font=("Courier", 14))
+    canopy2.place(relx=0.1,rely=0.85)
     ##Till Here
     
 
