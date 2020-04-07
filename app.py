@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, Text
 from PIL import ImageTk, Image
-import os,time
+import os,time,re
 
 root=tk.Tk()
 root.title("REPINs Through Time")
@@ -51,6 +51,11 @@ def generate(entry):
     addreddot(entry)
     addrepin(entry)
 
+def fetch(main_lbx,s_frame):
+    tester=main_lbx.get('active')
+    m=re.search('(\d+)',tester).group()
+    tk.Label(s_frame,text=m).place(relx=0.65,rely=0.7,relwidth=0.3)
+
 def main():
     canvas = tk.Canvas(root,height=500,width=1100,bg="white")
     canvas.pack()
@@ -60,9 +65,10 @@ def main():
     s_frame = tk.Frame(root, bg=blue)
     s_frame.place(relwidth=0.35,relheight=1,relx=0)
     
-    slab=tk.Label(s_frame,text="Search REPIN by flanking Genes")
+    slab=tk.Label(s_frame,text="Search REPIN by Hotspot")
     slab.place(relx=0.1,rely=0.04,relwidth=0.7,relheight=0.05)
     
+    """
     #Search Entry
     sbox1=tk.Entry(s_frame,font=40)
     sbox1.place(relx=0.09,rely=0.1,relwidth=0.35,relheight=0.05)
@@ -75,6 +81,24 @@ def main():
     
     go_button2 = tk.Button(s_frame,text="Set GeneB",font=40,command= lambda:generate(sbox2.get()))
     go_button2.place(relx=0.49,rely=0.16)
+    """
+    
+    h=[]
+    for i in range(100):
+        h.append("Hotspot #{}".format(i+1))
+    
+    main_lbx = tk.Listbox(s_frame)
+    main_lbx.place(relx=0.1,rely=0.11,relwidth=0.5,relheight=0.5)
+    
+    sbr= tk.Scrollbar(main_lbx)
+    sbr.pack(side="right",fill='y')
+    sbr.config(command=main_lbx.yview)
+    main_lbx.config(yscrollcommand=sbr.set)
+    
+    tk.Button(s_frame,text="Search",command=lambda: fetch(main_lbx,s_frame)).place(relx=0.1,rely=0.7,relwidth=0.5)
+    
+    for i in range(len(h)):
+        main_lbx.insert(i,h[i])
     ##Till Here
     
     #Adding Frame for Tree Image
