@@ -19,40 +19,58 @@ ssx,ssy=0.685,0.53
 def addrepin(entry):
     setx,sety=0.09,0.125
     stag=0.05
-    rep_label = tk.Label(tree_frame,text="blue 1234567..1234567")
-    if(entry=="tbx"):
-        rep_label.place(relx=tbx-setx,rely=by+sety)
-    elif(entry=="dbx"):
-        rep_label.place(relx=dbx-setx,rely=by+sety+stag)
-    elif(entry=="sbx"):
-        rep_label.place(relx=sbx-setx,rely=by+sety)
-    elif(entry=="bbx"):
-        rep_label.place(relx=bbx-setx,rely=by+sety+stag)
+    rep_label = "blue 1234567..1234567"
+    if(entry==1):
+        tk.Label(tree_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
+    elif(entry==2):
+        tk.Label(tree_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
+        tk.Label(tree_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
+    elif(entry==3):
+        tk.Label(tree_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
+        tk.Label(tree_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
+        tk.Label(tree_frame,text=rep_label).place(relx=bbx-setx,rely=by+sety+stag)
+        #rep_label.place(relx=sbx-setx,rely=by+sety)
+    elif(entry==4):
+        tk.Label(tree_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
+        tk.Label(tree_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
+        tk.Label(tree_frame,text=rep_label).place(relx=sbx-setx,rely=by+sety)
+    elif(entry==5):
+        tk.Label(tree_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
+        tk.Label(tree_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
+        tk.Label(tree_frame,text=rep_label).place(relx=sbx-setx,rely=by+sety)
+        tk.Label(tree_frame,text=rep_label).place(relx=bbx-setx,rely=by+sety+stag)
 
 def addreddot(entry):
     dotr_pil=(Image.open("reddot.png")).resize((25,25))
     dotr=ImageTk.PhotoImage(dotr_pil)
     rd = tk.Label(tree_frame,image=dotr)
     rd.image=dotr
-    if(entry=="tbx"):
-        rd.place(relx=tbx,rely=by)
-    elif(entry=="dbx"):
-        rd.place(relx=dbx,rely=by)
-    elif(entry=="sbx"):
+    if(entry==1):
+        rd.place(relx=dsx,rely=dsy)
+        tk.Label(tree_frame,text="Lost Here").place(relx=dsx-0.02,rely=dsy+0.07)
+        #rd.place(relx=tbx,rely=by)
+    elif(entry==2):
+        rd.place(relx=ssx,rely=ssy)
+        tk.Label(tree_frame,text="Lost Here").place(relx=ssx-0.02,rely=ssy+0.07)
+        #rd.place(relx=dbx,rely=by)
+    elif(entry==3):
         rd.place(relx=sbx,rely=by)
-    elif(entry=="bbx"):
+        tk.Label(tree_frame,text="Lost Here").place(relx=sbx+0.05,rely=by+0.01)
+    elif(entry==4):
         rd.place(relx=bbx,rely=by)
-    elif(entry=="tsx"):
+        tk.Label(tree_frame,text="Lost Here").place(relx=bbx+0.05,rely=by+0.01)
+    """
+    elif(entry==5):
         rd.place(relx=tsx,rely=tsy)
     elif(entry=="dsx"):
         rd.place(relx=dsx,rely=dsy)
     elif(entry=="ssx"):
         rd.place(relx=ssx,rely=ssy)
+    """
 
 def generate(entry):
-    m=['tbx','dbx','sbx','bbx','tsx','dsx','ssx']
-    addreddot(m[int(entry)-1])
-    addrepin(m[int(entry)-1])
+    addreddot(int(entry))
+    addrepin(int(entry))
 
 def fetch(evt):
     global main_lbx,s_frame
