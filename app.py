@@ -8,6 +8,8 @@ root.title("REPINs Through Time")
 blue="#0F97EF"
 white="#FFFFFF"
 tree_frame=None
+main_lbx=None
+s_frame=None
 tbx,dbx,sbx,bbx=0.12,0.36,0.57,0.8
 by=0.6
 tsx,tsy=0.33,0.35
@@ -48,13 +50,20 @@ def addreddot(entry):
         rd.place(relx=ssx,rely=ssy)
 
 def generate(entry):
-    addreddot(entry)
-    addrepin(entry)
+    m=['tbx','dbx','sbx','bbx','tsx','dsx','ssx']
+    addreddot(m[int(entry)-1])
+    addrepin(m[int(entry)-1])
 
-def fetch(main_lbx,s_frame):
-    tester=main_lbx.get('active')
-    m=re.search('(\d+)',tester).group()
-    tk.Label(s_frame,text=m).place(relx=0.65,rely=0.7,relwidth=0.3)
+def fetch(evt):
+    global main_lbx,s_frame
+    w = evt.widget
+    w = evt.widget
+    index = int(w.curselection()[0])
+    value = w.get(index)
+    m=re.search('(\d+)',value).group()
+    tk.Label(s_frame,font=("Helvetica", 16,'bold'),text="Active Selection: ",bg=blue).place(relx=0,rely=0.65,relwidth=0.5)
+    tk.Label(s_frame,text=m).place(relx=0.45,rely=0.65,relwidth=0.2)
+    generate(m)
 
 def main():
     canvas = tk.Canvas(root,height=500,width=1100,bg="white")
@@ -62,6 +71,7 @@ def main():
     
     #Adding Frame for Search Panel
     ##From Here
+    global s_frame
     s_frame = tk.Frame(root, bg=blue)
     s_frame.place(relwidth=0.35,relheight=1,relx=0)
     
@@ -82,11 +92,12 @@ def main():
     go_button2 = tk.Button(s_frame,text="Set GeneB",font=40,command= lambda:generate(sbox2.get()))
     go_button2.place(relx=0.49,rely=0.16)
     """
-    
+    #Listbox for hotspots
     h=[]
-    for i in range(100):
+    for i in range(7):
         h.append("Hotspot #{}".format(i+1))
-    
+    global main_lbx
+
     main_lbx = tk.Listbox(s_frame)
     main_lbx.place(relx=0.1,rely=0.11,relwidth=0.5,relheight=0.5)
     
@@ -95,10 +106,10 @@ def main():
     sbr.config(command=main_lbx.yview)
     main_lbx.config(yscrollcommand=sbr.set)
     
-    tk.Button(s_frame,text="Search",command=lambda: fetch(main_lbx,s_frame)).place(relx=0.1,rely=0.7,relwidth=0.5)
-    
     for i in range(len(h)):
         main_lbx.insert(i,h[i])
+    
+    main_lbx.bind('<<ListboxSelect>>', fetch)
     ##Till Here
     
     #Adding Frame for Tree Image
