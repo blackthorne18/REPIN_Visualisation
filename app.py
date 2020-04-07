@@ -10,6 +10,7 @@ white="#FFFFFF"
 tree_frame=None
 main_lbx=None
 s_frame=None
+lakme_frame=None
 tbx,dbx,sbx,bbx=0.12,0.36,0.57,0.8
 by=0.6
 tsx,tsy=0.33,0.35
@@ -21,44 +22,44 @@ def addrepin(entry):
     stag=0.05
     rep_label = "blue 1234567..1234567"
     if(entry==1):
-        tk.Label(tree_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
+        tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
     elif(entry==2):
-        tk.Label(tree_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
-        tk.Label(tree_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
+        tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
+        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
     elif(entry==3):
-        tk.Label(tree_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
-        tk.Label(tree_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
-        tk.Label(tree_frame,text=rep_label).place(relx=bbx-setx,rely=by+sety+stag)
+        tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
+        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
+        tk.Label(lakme_frame,text=rep_label).place(relx=bbx-setx,rely=by+sety+stag)
         #rep_label.place(relx=sbx-setx,rely=by+sety)
     elif(entry==4):
-        tk.Label(tree_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
-        tk.Label(tree_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
-        tk.Label(tree_frame,text=rep_label).place(relx=sbx-setx,rely=by+sety)
+        tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
+        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
+        tk.Label(lakme_frame,text=rep_label).place(relx=sbx-setx,rely=by+sety)
     elif(entry==5):
-        tk.Label(tree_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
-        tk.Label(tree_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
-        tk.Label(tree_frame,text=rep_label).place(relx=sbx-setx,rely=by+sety)
-        tk.Label(tree_frame,text=rep_label).place(relx=bbx-setx,rely=by+sety+stag)
+        tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
+        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
+        tk.Label(lakme_frame,text=rep_label).place(relx=sbx-setx,rely=by+sety)
+        tk.Label(lakme_frame,text=rep_label).place(relx=bbx-setx,rely=by+sety+stag)
 
 def addreddot(entry):
     dotr_pil=(Image.open("reddot.png")).resize((25,25))
     dotr=ImageTk.PhotoImage(dotr_pil)
-    rd = tk.Label(tree_frame,image=dotr)
+    rd = tk.Label(lakme_frame,image=dotr)
     rd.image=dotr
     if(entry==1):
         rd.place(relx=dsx,rely=dsy)
-        tk.Label(tree_frame,text="Lost Here").place(relx=dsx-0.02,rely=dsy+0.07)
+        tk.Label(lakme_frame,text="Lost Here").place(relx=dsx-0.02,rely=dsy+0.07)
         #rd.place(relx=tbx,rely=by)
     elif(entry==2):
         rd.place(relx=ssx,rely=ssy)
-        tk.Label(tree_frame,text="Lost Here").place(relx=ssx-0.02,rely=ssy+0.07)
+        tk.Label(lakme_frame,text="Lost Here").place(relx=ssx-0.02,rely=ssy+0.07)
         #rd.place(relx=dbx,rely=by)
     elif(entry==3):
         rd.place(relx=sbx,rely=by)
-        tk.Label(tree_frame,text="Lost Here").place(relx=sbx+0.05,rely=by+0.01)
+        tk.Label(lakme_frame,text="Lost Here").place(relx=sbx+0.05,rely=by+0.01)
     elif(entry==4):
         rd.place(relx=bbx,rely=by)
-        tk.Label(tree_frame,text="Lost Here").place(relx=bbx+0.05,rely=by+0.01)
+        tk.Label(lakme_frame,text="Lost Here").place(relx=bbx+0.05,rely=by+0.01)
     """
     elif(entry==5):
         rd.place(relx=tsx,rely=tsy)
@@ -69,6 +70,19 @@ def addreddot(entry):
     """
 
 def generate(entry):
+    global lakme_frame
+    lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
+    lakme_frame.place(relx=0.4,rely=0.05,relheight=0.9,relwidth=0.55)
+    
+    gentree=ImageTk.PhotoImage(Image.open("gentree.jpg"))
+    g_label= tk.Label(lakme_frame,image=gentree)
+    g_label.image=gentree
+    g_label.place(relwidth=1,relheight=1)
+    
+    tk.Label(lakme_frame,text="Pseudomonas chlororaphis REPINs Clade",font=("Courier", 20)).place(relx=0.12,rely=0.04)
+    
+    tk.Label(s_frame,font=("Helvetica", 16,'bold'),text="Active Selection: ",bg=blue).place(relx=0,rely=0.65,relwidth=0.5)
+    
     addreddot(int(entry))
     addrepin(int(entry))
 
@@ -80,7 +94,7 @@ def fetch(evt):
     value = w.get(index)
     m=re.search('(\d+)',value).group()
     tk.Label(s_frame,font=("Helvetica", 16,'bold'),text="Active Selection: ",bg=blue).place(relx=0,rely=0.65,relwidth=0.5)
-    tk.Label(s_frame,text=m).place(relx=0.45,rely=0.65,relwidth=0.2)
+    tk.Label(s_frame,text=m).place(relx=0.45,rely=0.65,relwidth=0.15)
     generate(m)
 
 def main():
@@ -95,6 +109,8 @@ def main():
     
     slab=tk.Label(s_frame,text="Search REPIN by Hotspot")
     slab.place(relx=0.1,rely=0.04,relwidth=0.7,relheight=0.05)
+    
+    tk.Label(s_frame,text=f"Footnote:\nRed Dot-> Lost in evolution\nGreen Dot-> Gained in evolution",font=("Courier", 14)).place(relx=0.1,rely=0.85)
     
     """
     #Search Entry
@@ -130,6 +146,8 @@ def main():
     main_lbx.bind('<<ListboxSelect>>', fetch)
     ##Till Here
     
+    generate(-1)
+    """
     #Adding Frame for Tree Image
     ##From Here
     global tree_frame
@@ -139,7 +157,6 @@ def main():
     
     #Adding main Image
     gentree=ImageTk.PhotoImage(Image.open("gentree.jpg"))
-    #gentree=tk.PhotoImage(file='gentree.jpg')
     g_label= tk.Label(tree_frame,image=gentree)
     g_label.image=gentree
     g_label.place(relwidth=1,relheight=1)
@@ -147,11 +164,8 @@ def main():
     #Tree Title
     canopy1 = tk.Label(tree_frame,text="Pseudomonas chlororaphis REPINs Clade",font=("Courier", 20))
     canopy1.place(relx=0.12,rely=0.04)
-    
-    canopy2 = tk.Label(s_frame,text=f"Footnote:\nRed Dot-> Lost in evolution\nGreen Dot-> Gained in evolution",font=("Courier", 14))
-    canopy2.place(relx=0.1,rely=0.85)
     ##Till Here
-    
+    """
 
 if __name__ == '__main__':
     main()
