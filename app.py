@@ -22,58 +22,69 @@ def repinapi(n1,n2,key):
     if(key==1):
         entry=n1
         rep_label="green 12345678..12345678"
+        genes=["GeneA","GeneB"]
     if(key==2):
         entry=n1
-        rep_label="green 12345678..12345678"
-    return rep_label,entry
+        rep_label="green 12345678..12345678\ngreen 12345678..12345678"
+        genes=["GeneA","GeneB"]
+    return rep_label,entry,genes
 
-def addrepin(entry,rep_label):
+def addrepin(entry,rep_label,genes):
     setx,sety=0.09,0.125
-    stag=0.05
+    stag=0
+    mx=0.02
+    
+    gs1="Gene Before: {}".format(genes[0])
+    gs2="Gene Before: {}".format(genes[1])
+    
     if(entry==1):
         tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
     elif(entry==2):
         tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
-        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
+        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety)
     elif(entry==3):
         tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
-        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
-        tk.Label(lakme_frame,text=rep_label).place(relx=bbx-setx,rely=by+sety+stag)
+        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety)
+        tk.Label(lakme_frame,text=rep_label).place(relx=bbx-setx+mx,rely=by+sety)
         #rep_label.place(relx=sbx-setx,rely=by+sety)
     elif(entry==4):
         tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
-        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
-        tk.Label(lakme_frame,text=rep_label).place(relx=sbx-setx,rely=by+sety)
+        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety)
+        tk.Label(lakme_frame,text=rep_label).place(relx=sbx-setx+mx,rely=by+sety)
     elif(entry==5):
         tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
-        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety+stag)
-        tk.Label(lakme_frame,text=rep_label).place(relx=sbx-setx,rely=by+sety)
-        tk.Label(lakme_frame,text=rep_label).place(relx=bbx-setx,rely=by+sety+stag)
+        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety)
+        tk.Label(lakme_frame,text=rep_label).place(relx=sbx-setx+mx,rely=by+sety)
+        tk.Label(lakme_frame,text=rep_label).place(relx=bbx-setx+mx,rely=by+sety)
+    if(entry>-1):
+        tk.Label(lakme_frame,font=("Helvetica", 16,'bold'),text=gs1).place(relx=tbx+0.15,rely=by+0.3)
+        tk.Label(lakme_frame,font=("Helvetica", 16,'bold'),text=gs2).place(relx=dbx+0.15,rely=by+0.3)
 
 def addreddot(entry):
     dotr_pil=(Image.open("reddot.png")).resize((25,25))
     dotr=ImageTk.PhotoImage(dotr_pil)
     rd = tk.Label(lakme_frame,image=dotr)
     rd.image=dotr
+    mx=0.045
     if(entry==1):
-        rd.place(relx=dsx,rely=dsy)
-        tk.Label(lakme_frame,text="Lost Here").place(relx=dsx-0.02,rely=dsy+0.07)
+        rd.place(relx=dsx+mx,rely=dsy)
+        tk.Label(lakme_frame,text="Lost Here").place(relx=dsx+mx-0.02,rely=dsy+0.07)
         #rd.place(relx=tbx,rely=by)
     elif(entry==2):
-        rd.place(relx=ssx,rely=ssy)
-        tk.Label(lakme_frame,text="Lost Here").place(relx=ssx-0.02,rely=ssy+0.07)
+        rd.place(relx=ssx+mx-0.025,rely=ssy)
+        tk.Label(lakme_frame,text="Lost Here").place(relx=ssx-0.02+mx-0.025,rely=ssy+0.07)
         #rd.place(relx=dbx,rely=by)
     elif(entry==3):
         rd.place(relx=sbx,rely=by)
-        tk.Label(lakme_frame,text="Lost Here").place(relx=sbx+0.05,rely=by+0.01)
+        tk.Label(lakme_frame,text="Lost Here").place(relx=sbx+0.03,rely=by+0.01)
     elif(entry==4):
-        rd.place(relx=bbx,rely=by)
-        tk.Label(lakme_frame,text="Lost Here").place(relx=bbx+0.05,rely=by+0.01)
+        rd.place(relx=bbx+mx,rely=by)
+        tk.Label(lakme_frame,text="Lost Here").place(relx=bbx+0.03+mx,rely=by+0.01)
 
 def tree_init():
     global lakme_frame
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
-    lakme_frame.place(relx=0.4,rely=0.05,relheight=0.9,relwidth=0.55)
+    lakme_frame.place(relx=0.3,rely=0.05,relheight=0.9,relwidth=0.65)
     
     gentree=ImageTk.PhotoImage(Image.open("gentree.jpg"))
     g_label= tk.Label(lakme_frame,image=gentree)
@@ -86,9 +97,9 @@ def tree_init():
 
 def generate(entry):
     tree_init()
-    rep_label,entry=repinapi(int(entry),0,1)
+    rep_label,entry,genes=repinapi(int(entry),0,1)
     addreddot(entry)
-    addrepin(entry,rep_label)
+    addrepin(entry,rep_label,genes)
 
 def fetch(evt):
     global main_lbx,s_frame
@@ -124,11 +135,11 @@ def hotspotinit():
 def locgen(x):
     tree_init()
     m= (re.findall('(\d+)..(\d+)',str(x)))
-    rep_label,entry=repinapi(int(m[0][0]),int(m[0][1]),2)
+    rep_label,entry,genes=repinapi(int(m[0][0]),int(m[0][1]),2)
     m=str(entry)
     tk.Label(s_frame,text=m).place(relx=0.45,rely=0.65,relwidth=0.15)
     addreddot(entry)
-    addrepin(entry,rep_label)
+    addrepin(entry,rep_label,genes)
 
 def locationinit():
     sbox1=tk.Entry(s_frame,font=40)
@@ -144,7 +155,7 @@ def maininit():
     tk.Label(s_frame,text=f"Footnote:\nRed Dot-> Lost in evolution\nGreen Dot-> Gained in evolution",font=("Courier", 14)).place(relx=0.1,rely=0.85)
     
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
-    lakme_frame.place(relx=0.4,rely=0.05,relheight=0.9,relwidth=0.55)
+    lakme_frame.place(relx=0.3,rely=0.05,relheight=0.9,relwidth=0.65)
     
     gentree=ImageTk.PhotoImage(Image.open("gentree.jpg"))
     g_label= tk.Label(lakme_frame,image=gentree)
@@ -167,14 +178,14 @@ def selected(event):
     return
 
 def main():
-    canvas = tk.Canvas(root,height=500,width=1100,bg="white")
+    canvas = tk.Canvas(root,height=500,width=1250,bg="white")
     canvas.pack()
     
     #Adding Frame for Search Panel
     ##From Here
     global s_frame
     s_frame = tk.Frame(root, bg=blue)
-    s_frame.place(relwidth=0.35,relheight=1,relx=0)
+    s_frame.place(relwidth=0.25,relheight=1,relx=0)
     
     options=["Choose Search Method","Search REPIN by Hotspot","Search REPIN by Location Range"]
     clicked= tk.StringVar()
