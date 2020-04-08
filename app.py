@@ -17,10 +17,19 @@ tsx,tsy=0.33,0.35
 dsx,dsy=0.465,0.445
 ssx,ssy=0.685,0.53
 
-def addrepin(entry):
+
+def repinapi(n1,n2,key):
+    if(key==1):
+        entry=n1
+        rep_label="green 12345678..12345678"
+    if(key==2):
+        entry=n1
+        rep_label="green 12345678..12345678"
+    return rep_label,entry
+
+def addrepin(entry,rep_label):
     setx,sety=0.09,0.125
     stag=0.05
-    rep_label = "blue 1234567..1234567"
     if(entry==1):
         tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
     elif(entry==2):
@@ -60,16 +69,8 @@ def addreddot(entry):
     elif(entry==4):
         rd.place(relx=bbx,rely=by)
         tk.Label(lakme_frame,text="Lost Here").place(relx=bbx+0.05,rely=by+0.01)
-    """
-    elif(entry==5):
-        rd.place(relx=tsx,rely=tsy)
-    elif(entry=="dsx"):
-        rd.place(relx=dsx,rely=dsy)
-    elif(entry=="ssx"):
-        rd.place(relx=ssx,rely=ssy)
-    """
 
-def generate(entry):
+def tree_init():
     global lakme_frame
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
     lakme_frame.place(relx=0.4,rely=0.05,relheight=0.9,relwidth=0.55)
@@ -82,9 +83,12 @@ def generate(entry):
     tk.Label(lakme_frame,text="Pseudomonas chlororaphis REPINs Clade",font=("Courier", 20)).place(relx=0.12,rely=0.04)
     
     tk.Label(s_frame,font=("Helvetica", 16,'bold'),text="Active Selection: ",bg=blue).place(relx=0,rely=0.65,relwidth=0.5)
-    
-    addreddot(int(entry))
-    addrepin(int(entry))
+
+def generate(entry):
+    tree_init()
+    rep_label,entry=repinapi(int(entry),0,1)
+    addreddot(entry)
+    addrepin(entry,rep_label)
 
 def fetch(evt):
     global main_lbx,s_frame
@@ -97,6 +101,71 @@ def fetch(evt):
     tk.Label(s_frame,text=m).place(relx=0.45,rely=0.65,relwidth=0.15)
     generate(m)
 
+def hotspotinit():
+    h=[]
+    for i in range(7):
+        h.append("Hotspot #{}".format(i+1))
+    global main_lbx
+
+    main_lbx = tk.Listbox(s_frame)
+    main_lbx.place(relx=0.1,rely=0.11,relwidth=0.5,relheight=0.5)
+    
+    sbr= tk.Scrollbar(main_lbx)
+    sbr.pack(side="right",fill='y')
+    sbr.config(command=main_lbx.yview)
+    main_lbx.config(yscrollcommand=sbr.set)
+    
+    for i in range(len(h)):
+        main_lbx.insert(i,h[i])
+    
+    main_lbx.bind('<<ListboxSelect>>', fetch)
+    generate(-1)
+
+def locgen(x):
+    tree_init()
+    m= (re.findall('(\d+)..(\d+)',str(x)))
+    rep_label,entry=repinapi(int(m[0][0]),int(m[0][1]),2)
+    m=str(entry)
+    tk.Label(s_frame,text=m).place(relx=0.45,rely=0.65,relwidth=0.15)
+    addreddot(entry)
+    addrepin(entry,rep_label)
+
+def locationinit():
+    sbox1=tk.Entry(s_frame,font=40)
+    sbox1.place(relx=0.1,rely=0.1,relwidth=0.5,relheight=0.05)
+    
+    go_button1 = tk.Button(s_frame,text="Set Range",font=40,command= lambda:locgen(sbox1.get()))
+    go_button1.place(relx=0.12,rely=0.16)
+    
+    tk.Label(s_frame,text="Enter ONLY in the format 12345..12345.",bg=blue).place(relx=0.13,rely=0.25)
+    
+def maininit():
+    #tk.Label(s_frame,bg=blue).place(relx=0,rely=0,relwidth=1,relheight=1)
+    tk.Label(s_frame,text=f"Footnote:\nRed Dot-> Lost in evolution\nGreen Dot-> Gained in evolution",font=("Courier", 14)).place(relx=0.1,rely=0.85)
+    
+    lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
+    lakme_frame.place(relx=0.4,rely=0.05,relheight=0.9,relwidth=0.55)
+    
+    gentree=ImageTk.PhotoImage(Image.open("gentree.jpg"))
+    g_label= tk.Label(lakme_frame,image=gentree)
+    g_label.image=gentree
+    g_label.place(relwidth=1,relheight=1)
+    
+    tk.Label(lakme_frame,text="Pseudomonas chlororaphis REPINs Clade",font=("Courier", 20)).place(relx=0.12,rely=0.04)
+
+def clear_s_frame():
+    tk.Label(s_frame,bg=blue).place(relx=0,rely=0.1,relwidth=0.8,relheight=0.65)
+
+def selected(event):
+    maininit()
+    if(event.count("Hotspot")!=0):
+        clear_s_frame()
+        hotspotinit()
+    if(event.count("Location")!=0):
+        clear_s_frame()
+        locationinit()
+    return
+
 def main():
     canvas = tk.Canvas(root,height=500,width=1100,bg="white")
     canvas.pack()
@@ -107,12 +176,22 @@ def main():
     s_frame = tk.Frame(root, bg=blue)
     s_frame.place(relwidth=0.35,relheight=1,relx=0)
     
+    options=["Choose Search Method","Search REPIN by Hotspot","Search REPIN by Location Range"]
+    clicked= tk.StringVar()
+    clicked.set(options[0])
+    
+    drop = tk.OptionMenu(s_frame,clicked, *options,command=selected)
+    drop.place(relx=0.1,rely=0.04,relwidth=0.7,relheight=0.05)
+    
+    maininit()
+    
+    """
+    tk.Label(s_frame,text=f"Footnote:\nRed Dot-> Lost in evolution\nGreen Dot-> Gained in evolution",font=("Courier", 14)).place(relx=0.1,rely=0.85)
+    
+    
     slab=tk.Label(s_frame,text="Search REPIN by Hotspot")
     slab.place(relx=0.1,rely=0.04,relwidth=0.7,relheight=0.05)
     
-    tk.Label(s_frame,text=f"Footnote:\nRed Dot-> Lost in evolution\nGreen Dot-> Gained in evolution",font=("Courier", 14)).place(relx=0.1,rely=0.85)
-    
-    """
     #Search Entry
     sbox1=tk.Entry(s_frame,font=40)
     sbox1.place(relx=0.09,rely=0.1,relwidth=0.35,relheight=0.05)
@@ -125,7 +204,8 @@ def main():
     
     go_button2 = tk.Button(s_frame,text="Set GeneB",font=40,command= lambda:generate(sbox2.get()))
     go_button2.place(relx=0.49,rely=0.16)
-    """
+    
+    
     #Listbox for hotspots
     h=[]
     for i in range(7):
@@ -147,7 +227,7 @@ def main():
     ##Till Here
     
     generate(-1)
-    """
+    
     #Adding Frame for Tree Image
     ##From Here
     global tree_frame
