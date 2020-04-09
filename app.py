@@ -79,7 +79,8 @@ def addrepin(rep_label):
                 tk.Label(lakme_frame,text=txt).place(relx=cx+0.02,rely=cy[j])
 
 def addreddot(entry,key):
-    dotr_pil=(Image.open("reddot.png")).resize((25,25))
+    #Called addreddot but actually adds a blackdot xD
+    dotr_pil=(Image.open("blackdot.png")).resize((25,25))
     dotr=ImageTk.PhotoImage(dotr_pil)
     #0.490-0.447=0.043
     dcx=0.17
@@ -195,7 +196,7 @@ def hotspotinit():
         main_lbx.insert(i,h[i])
     
     main_lbx.bind('<<ListboxSelect>>', fetch)
-    generate(-1)
+    #generate(-1)
 
 def locgen(x):
     tree_init()
@@ -242,9 +243,7 @@ def selected(event):
         locationinit()
     return
 
-def main():
-    brain()
-    
+def setup():
     canvas = tk.Canvas(root,height=700,width=1000,bg="white")
     canvas.pack()
     
@@ -260,71 +259,13 @@ def main():
     
     drop = tk.OptionMenu(s_frame,clicked, *options,command=selected)
     drop.place(relx=0.1,rely=0.04,relwidth=0.7,relheight=0.05)
-    
-    maininit()
-    
-    """
-    tk.Label(s_frame,text=f"Footnote:\nRed Dot-> Lost in evolution\nGreen Dot-> Gained in evolution",font=("Courier", 14)).place(relx=0.1,rely=0.85)
-    
-    
-    slab=tk.Label(s_frame,text="Search REPIN by Hotspot")
-    slab.place(relx=0.1,rely=0.04,relwidth=0.7,relheight=0.05)
-    
-    #Search Entry
-    sbox1=tk.Entry(s_frame,font=40)
-    sbox1.place(relx=0.09,rely=0.1,relwidth=0.35,relheight=0.05)
-    
-    go_button1 = tk.Button(s_frame,text="Set GeneA",font=40,command= lambda:generate(sbox1.get()))
-    go_button1.place(relx=0.12,rely=0.16)
-    
-    sbox2=tk.Entry(s_frame,font=40)
-    sbox2.place(relx=0.46,rely=0.1,relwidth=0.35,relheight=0.05)
-    
-    go_button2 = tk.Button(s_frame,text="Set GeneB",font=40,command= lambda:generate(sbox2.get()))
-    go_button2.place(relx=0.49,rely=0.16)
-    
-    
-    #Listbox for hotspots
-    h=[]
-    for i in range(7):
-        h.append("Hotspot #{}".format(i+1))
-    global main_lbx
+    #Till Here
 
-    main_lbx = tk.Listbox(s_frame)
-    main_lbx.place(relx=0.1,rely=0.11,relwidth=0.5,relheight=0.5)
-    
-    sbr= tk.Scrollbar(main_lbx)
-    sbr.pack(side="right",fill='y')
-    sbr.config(command=main_lbx.yview)
-    main_lbx.config(yscrollcommand=sbr.set)
-    
-    for i in range(len(h)):
-        main_lbx.insert(i,h[i])
-    
-    main_lbx.bind('<<ListboxSelect>>', fetch)
-    ##Till Here
-    
-    generate(-1)
-    
-    #Adding Frame for Tree Image
-    ##From Here
-    global tree_frame
-    tree_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
-    tree_frame.place(relx=0.4,rely=0.05,relheight=0.9,relwidth=0.55)
-    
-    
-    #Adding main Image
-    gentree=ImageTk.PhotoImage(Image.open("gentree2.jpg"))
-    g_label= tk.Label(tree_frame,image=gentree)
-    g_label.image=gentree
-    g_label.place(relwidth=1,relheight=1)
-    
-    #Tree Title
-    canopy1 = tk.Label(tree_frame,text="Pseudomonas chlororaphis REPINs Clade",font=("Courier", 20))
-    canopy1.place(relx=0.12,rely=0.04)
-    ##Till Here
-    """
+def main():
+    brain()
+    setup()
+    maininit()
+    root.mainloop()
 
 if __name__ == '__main__':
     main()
-    root.mainloop()
