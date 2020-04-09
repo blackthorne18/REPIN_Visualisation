@@ -243,7 +243,7 @@ def selected(event):
         locationinit()
     return
 
-def setup():
+def firstsetup():
     canvas = tk.Canvas(root,height=700,width=1000,bg="white")
     canvas.pack()
     
@@ -263,7 +263,7 @@ def setup():
 
 def main():
     brain()
-    setup()
+    firstsetup()
     maininit()
     root.mainloop()
 
