@@ -82,35 +82,33 @@ def addreddot(entry,key):
     dotr_pil=(Image.open("reddot.png")).resize((25,25))
     dotr=ImageTk.PhotoImage(dotr_pil)
     #0.490-0.447=0.043
-    dcx=0.043
+    dcx=0.17
     dcy=0.005
     mx=[0.27,0.27,0.27,0.21]
     my=[0.23,0.51,0.73,0.37]
-    if(key==0):
-        for i in range(len(entry)):
-            rd = tk.Label(lakme_frame,image=dotr)
-            rd.image=dotr
+        
+    for i in range(len(entry)):
+        rd = tk.Label(lakme_frame,image=dotr)
+        rd.image=dotr
+        if(entry[i]<=3 and key[0]==0):
             rd.place(relx=cx-dcx,rely=cy[entry[i]]-dcy)
-    else:
-        for i in range(len(entry)):
-            rd = tk.Label(lakme_frame,image=dotr)
-            rd.image=dotr
-            if(entry[i]==110):
-                rd.place(relx=mx[0],rely=my[0])
-            elif(entry[i]==120):
-                rd.place(relx=cx-dcx,rely=cy[2]-dcy)
-            elif(entry[i]==130):
-                rd.place(relx=mx[1],rely=my[1])
-            elif(entry[i]==150):
-                rd.place(relx=mx[3],rely=my[3])
-            elif(entry[i]==200):
-                rd.place(relx=mx[2],rely=my[2])
+        elif(entry[i]==4 and key[1]==0):
+            rd.place(relx=cx-dcx,rely=cy[entry[i]]-dcy)
+        elif(entry[i]>4 and entry[i]<=6 and key[2]==0):
+            rd.place(relx=cx-dcx,rely=cy[entry[i]]-dcy)
+        elif(entry[i]>6 and entry[i]<=10 and key[3]==0):
+            rd.place(relx=cx-dcx,rely=cy[entry[i]]-dcy)
         
-        
-        #rd.place(relx=mx[i],rely=my[i])
-        #rd.place(relx=cx-dcx,rely=cy[i]-dcy)
-        #tk.Label(lakme_frame,text="Lost Here").place(relx=mx[i]-0.02,rely=my[i]+0.07)
-    
+        if(entry[i]==110):
+            rd.place(relx=mx[0],rely=my[0])
+        elif(entry[i]==120):
+            rd.place(relx=cx-dcx,rely=cy[4]-dcy)
+        elif(entry[i]==130):
+            rd.place(relx=mx[1],rely=my[1])
+        elif(entry[i]==150):
+            rd.place(relx=mx[3],rely=my[3])
+        elif(entry[i]==200):
+            rd.place(relx=mx[2],rely=my[2])
 
 def tree_init():
     global lakme_frame
@@ -130,7 +128,7 @@ def generate(entry):
     tree_init()
     rep_label=repinapi(int(entry),0,1)
     
-    rep_label=[[0,"chlT5",1234567,1234567,0],[0,"chlfdfS23",1234567,1234567,1],[0,"chl66",1234567,1234567,2]]
+    #rep_label=[[0,"chlT5",1234567,1234567,0],[0,"chlfdfS23",1234567,1234567,1],[0,"chl66",1234567,1234567,2]]
     
     global treedot2
     treedot2=[0,0,0,0,0,0,0,0,0,0,0]
@@ -141,27 +139,28 @@ def generate(entry):
     
     
     entry=[]
-    key=0
+    #110,120,130,200,150
+    key=[0,0,0,0]
     if(treedot2[0]==0 and treedot2[1]==0 and treedot2[2]==0 and treedot2[3]==0):
         entry.append(110)
-        key+=1
+        key[0]+=1
     if(treedot2[4]==0):
         entry.append(120)
-        key+=1
+        key[1]+=1
     if(treedot2[5]==0 and treedot2[6]==0):
         entry.append(130)
-        key+=1
+        key[2]+=1
     if(treedot2[7]==0 and treedot2[8]==0 and treedot2[9]==0 and treedot2[10]==0):
         entry.append(200)
-        key+=1
+        key[3]+=1
     if(entry.count(110)!=0 and entry.count(120)!=0 and entry.count(130)!=0):
         entry=[150]
+
+    for i in range(len(treedot2)):
+        if(treedot2[i]==0):
+            entry.append(i)
     
-    if(key==0):
-        for i in range(len(treedot2)):
-            if(treedot2[i]==0):
-                entry.append[i]
-    
+    #print(entry, key)
     addreddot(entry,key)
     addrepin(rep_label)
 
@@ -181,7 +180,7 @@ def hotspotinit():
     global repin
     nom=repin[len(repin)-1][0]
     for i in range(nom):
-        h.append("Hotspot #{}".format(i+1))
+        h.append("Hotspot #{}".format(i))
     global main_lbx
 
     main_lbx = tk.Listbox(s_frame)
