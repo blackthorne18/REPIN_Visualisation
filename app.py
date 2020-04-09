@@ -78,7 +78,6 @@ def addrepin(rep_label):
                 txt= str(rep_label[i][2])+".."+str(rep_label[i][3])
                 tk.Label(lakme_frame,text=txt).place(relx=cx+0.02,rely=cy[j])
 
-
 def addreddot(entry,key):
     dotr_pil=(Image.open("reddot.png")).resize((25,25))
     dotr=ImageTk.PhotoImage(dotr_pil)
@@ -179,7 +178,9 @@ def fetch(evt):
 
 def hotspotinit():
     h=[]
-    for i in range(7):
+    global repin
+    nom=repin[len(repin)-1][0]
+    for i in range(nom):
         h.append("Hotspot #{}".format(i+1))
     global main_lbx
 
