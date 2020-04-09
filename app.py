@@ -11,82 +11,114 @@ tree_frame=None
 main_lbx=None
 s_frame=None
 lakme_frame=None
-tbx,dbx,sbx,bbx=0.12,0.36,0.57,0.8
-by=0.6
-tsx,tsy=0.33,0.35
-dsx,dsy=0.465,0.445
-ssx,ssy=0.685,0.53
+repin=[]
+treedot1=[
+    "TR38","S24","TR18","TR39",
+    "T5",
+    "S23","66",
+    "TR36","6698","C50","P2"
+]
+treedot2=[0,0,0,0,0,0,0,0,0,0,0]
+cx=0.49
+cy=[0.125,0.2,0.27,0.34,0.413,0.481,0.55,0.625,0.695,0.77,0.835]
 
+def brain():
+    global repin
+    f=(open("repinClusters.txt",'r')).readlines()
+    for i in f:
+        s=i.split('\t')
+        s[0]=int(s[0])
+        s[2]=int(s[2])
+        s[3]=int(s[3])
+        s[4]=int(s[4])
+        s[5]=int(s[5])
+        s.pop(6)
+        if(s[6][len(s[6])-1]=='\n'):
+            s[6]=s[6][:-1]
+        repin.append(s)
 
 def repinapi(n1,n2,key):
     if(key==1):
-        entry=n1
-        rep_label="green 12345678..12345678"
-        genes=["GeneA","GeneB"]
+        temp=[]
+        for i in range(len(repin)):
+            if(repin[i][0]==n1):
+                temp.append(repin[i])
     if(key==2):
         entry=n1
-        rep_label="green 12345678..12345678\ngreen 12345678..12345678"
-        genes=["GeneA","GeneB"]
-    return rep_label,entry,genes
+        temp="green 12345678..12345678\ngreen 12345678..12345678"
+    return temp
 
-def addrepin(entry,rep_label,genes):
-    setx,sety=0.09,0.125
-    stag=0
-    mx=0.02
+def repdot(col,pos):
+    dotcol=[]
     
-    gs1="Gene Before: {}".format(genes[0])
-    gs2="Gene Before: {}".format(genes[1])
-    
-    if(entry==1):
-        tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
-    elif(entry==2):
-        tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
-        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety)
-    elif(entry==3):
-        tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
-        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety)
-        tk.Label(lakme_frame,text=rep_label).place(relx=bbx-setx+mx,rely=by+sety)
-        #rep_label.place(relx=sbx-setx,rely=by+sety)
-    elif(entry==4):
-        tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
-        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety)
-        tk.Label(lakme_frame,text=rep_label).place(relx=sbx-setx+mx,rely=by+sety)
-    elif(entry==5):
-        tk.Label(lakme_frame,text=rep_label).place(relx=tbx-setx,rely=by+sety)
-        tk.Label(lakme_frame,text=rep_label).place(relx=dbx-setx,rely=by+sety)
-        tk.Label(lakme_frame,text=rep_label).place(relx=sbx-setx+mx,rely=by+sety)
-        tk.Label(lakme_frame,text=rep_label).place(relx=bbx-setx+mx,rely=by+sety)
-    if(entry>-1):
-        tk.Label(lakme_frame,font=("Helvetica", 16,'bold'),text=gs1).place(relx=tbx+0.15,rely=by+0.3)
-        tk.Label(lakme_frame,font=("Helvetica", 16,'bold'),text=gs2).place(relx=dbx+0.15,rely=by+0.3)
-
-def addreddot(entry):
     dotr_pil=(Image.open("reddot.png")).resize((25,25))
     dotr=ImageTk.PhotoImage(dotr_pil)
-    rd = tk.Label(lakme_frame,image=dotr)
-    rd.image=dotr
-    mx=0.045
-    if(entry==1):
-        rd.place(relx=dsx+mx,rely=dsy)
-        tk.Label(lakme_frame,text="Lost Here").place(relx=dsx+mx-0.02,rely=dsy+0.07)
-        #rd.place(relx=tbx,rely=by)
-    elif(entry==2):
-        rd.place(relx=ssx+mx-0.025,rely=ssy)
-        tk.Label(lakme_frame,text="Lost Here").place(relx=ssx-0.02+mx-0.025,rely=ssy+0.07)
-        #rd.place(relx=dbx,rely=by)
-    elif(entry==3):
-        rd.place(relx=sbx,rely=by)
-        tk.Label(lakme_frame,text="Lost Here").place(relx=sbx+0.03,rely=by+0.01)
-    elif(entry==4):
-        rd.place(relx=bbx+mx,rely=by)
-        tk.Label(lakme_frame,text="Lost Here").place(relx=bbx+0.03+mx,rely=by+0.01)
+    dotcol.append( tk.Label(lakme_frame,image=dotr) )
+    dotcol[0].image=dotr
+    
+    dotb_pil=(Image.open("bluedot.png")).resize((25,25))
+    dotb=ImageTk.PhotoImage(dotb_pil)
+    dotcol.append(tk.Label(lakme_frame,image=dotb))
+    dotcol[1].image=dotb
+    
+    dotg_pil=(Image.open("greendot.png")).resize((25,25))
+    dotg=ImageTk.PhotoImage(dotg_pil)
+    dotcol.append(tk.Label(lakme_frame,image=dotg))
+    dotcol[2].image=dotg
+
+    fx=0.02
+    fy=0.005
+    dotcol[col].place(relx=cx-fx,rely=cy[pos]-fy)
+
+def addrepin(rep_label):
+    for i in range(len(rep_label)):
+        for j in range(len(treedot1)):
+            if(rep_label[i][1].count(treedot1[j])!=0):
+                repdot(rep_label[i][4],j)
+                txt= str(rep_label[i][2])+".."+str(rep_label[i][3])
+                tk.Label(lakme_frame,text=txt).place(relx=cx+0.02,rely=cy[j])
+
+
+def addreddot(entry,key):
+    dotr_pil=(Image.open("reddot.png")).resize((25,25))
+    dotr=ImageTk.PhotoImage(dotr_pil)
+    #0.490-0.447=0.043
+    dcx=0.043
+    dcy=0.005
+    mx=[0.27,0.27,0.27,0.21]
+    my=[0.23,0.51,0.73,0.37]
+    if(key==0):
+        for i in range(len(entry)):
+            rd = tk.Label(lakme_frame,image=dotr)
+            rd.image=dotr
+            rd.place(relx=cx-dcx,rely=cy[entry[i]]-dcy)
+    else:
+        for i in range(len(entry)):
+            rd = tk.Label(lakme_frame,image=dotr)
+            rd.image=dotr
+            if(entry[i]==110):
+                rd.place(relx=mx[0],rely=my[0])
+            elif(entry[i]==120):
+                rd.place(relx=cx-dcx,rely=cy[2]-dcy)
+            elif(entry[i]==130):
+                rd.place(relx=mx[1],rely=my[1])
+            elif(entry[i]==150):
+                rd.place(relx=mx[3],rely=my[3])
+            elif(entry[i]==200):
+                rd.place(relx=mx[2],rely=my[2])
+        
+        
+        #rd.place(relx=mx[i],rely=my[i])
+        #rd.place(relx=cx-dcx,rely=cy[i]-dcy)
+        #tk.Label(lakme_frame,text="Lost Here").place(relx=mx[i]-0.02,rely=my[i]+0.07)
+    
 
 def tree_init():
     global lakme_frame
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
-    lakme_frame.place(relx=0.3,rely=0.05,relheight=0.9,relwidth=0.65)
+    lakme_frame.place(relx=0.313,rely=0.05,relheight=0.9,relwidth=0.65)
     
-    gentree=ImageTk.PhotoImage(Image.open("gentree.jpg"))
+    gentree=ImageTk.PhotoImage(Image.open("gentree2.jpg"))
     g_label= tk.Label(lakme_frame,image=gentree)
     g_label.image=gentree
     g_label.place(relwidth=1,relheight=1)
@@ -97,9 +129,42 @@ def tree_init():
 
 def generate(entry):
     tree_init()
-    rep_label,entry,genes=repinapi(int(entry),0,1)
-    addreddot(entry)
-    addrepin(entry,rep_label,genes)
+    rep_label=repinapi(int(entry),0,1)
+    
+    rep_label=[[0,"chlT5",1234567,1234567,0],[0,"chlfdfS23",1234567,1234567,1],[0,"chl66",1234567,1234567,2]]
+    
+    global treedot2
+    treedot2=[0,0,0,0,0,0,0,0,0,0,0]
+    for i in range(len(rep_label)):
+        for j in range(len(treedot1)):
+            if(rep_label[i][1].count(treedot1[j])):
+                treedot2[j]+=1
+    
+    
+    entry=[]
+    key=0
+    if(treedot2[0]==0 and treedot2[1]==0 and treedot2[2]==0 and treedot2[3]==0):
+        entry.append(110)
+        key+=1
+    if(treedot2[4]==0):
+        entry.append(120)
+        key+=1
+    if(treedot2[5]==0 and treedot2[6]==0):
+        entry.append(130)
+        key+=1
+    if(treedot2[7]==0 and treedot2[8]==0 and treedot2[9]==0 and treedot2[10]==0):
+        entry.append(200)
+        key+=1
+    if(entry.count(110)!=0 and entry.count(120)!=0 and entry.count(130)!=0):
+        entry=[150]
+    
+    if(key==0):
+        for i in range(len(treedot2)):
+            if(treedot2[i]==0):
+                entry.append[i]
+    
+    addreddot(entry,key)
+    addrepin(rep_label)
 
 def fetch(evt):
     global main_lbx,s_frame
@@ -135,11 +200,11 @@ def hotspotinit():
 def locgen(x):
     tree_init()
     m= (re.findall('(\d+)..(\d+)',str(x)))
-    rep_label,entry,genes=repinapi(int(m[0][0]),int(m[0][1]),2)
+    rep_label=repinapi(int(m[0][0]),int(m[0][1]),2)
     m=str(entry)
     tk.Label(s_frame,text=m).place(relx=0.45,rely=0.65,relwidth=0.15)
-    addreddot(entry)
-    addrepin(entry,rep_label,genes)
+    #addreddot(entry)
+    #addrepin(entry,rep_label)
 
 def locationinit():
     sbox1=tk.Entry(s_frame,font=40)
@@ -152,12 +217,12 @@ def locationinit():
     
 def maininit():
     #tk.Label(s_frame,bg=blue).place(relx=0,rely=0,relwidth=1,relheight=1)
-    tk.Label(s_frame,text=f"Footnote:\nRed Dot-> Lost in evolution\nGreen Dot-> Gained in evolution",font=("Courier", 14)).place(relx=0.1,rely=0.85)
+    tk.Label(s_frame,bg=blue,text=f"Footnote:\nRed Dot-> Lost in evolution\nGreen Dot-> Gained in evolution",font=("Courier", 14)).place(relx=0,rely=0.85)
     
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
-    lakme_frame.place(relx=0.3,rely=0.05,relheight=0.9,relwidth=0.65)
+    lakme_frame.place(relx=0.313,rely=0.05,relheight=0.9,relwidth=0.65)
     
-    gentree=ImageTk.PhotoImage(Image.open("gentree.jpg"))
+    gentree=ImageTk.PhotoImage(Image.open("gentree2.jpg"))
     g_label= tk.Label(lakme_frame,image=gentree)
     g_label.image=gentree
     g_label.place(relwidth=1,relheight=1)
@@ -165,7 +230,7 @@ def maininit():
     tk.Label(lakme_frame,text="Pseudomonas chlororaphis REPINs Clade",font=("Courier", 20)).place(relx=0.12,rely=0.04)
 
 def clear_s_frame():
-    tk.Label(s_frame,bg=blue).place(relx=0,rely=0.1,relwidth=0.8,relheight=0.65)
+    tk.Label(s_frame,bg=blue).place(relx=0,rely=0.1,relwidth=1,relheight=0.65)
 
 def selected(event):
     maininit()
@@ -178,14 +243,16 @@ def selected(event):
     return
 
 def main():
-    canvas = tk.Canvas(root,height=500,width=1250,bg="white")
+    brain()
+    
+    canvas = tk.Canvas(root,height=700,width=1000,bg="white")
     canvas.pack()
     
     #Adding Frame for Search Panel
     ##From Here
     global s_frame
     s_frame = tk.Frame(root, bg=blue)
-    s_frame.place(relwidth=0.25,relheight=1,relx=0)
+    s_frame.place(relwidth=0.27,relheight=1,relx=0)
     
     options=["Choose Search Method","Search REPIN by Hotspot","Search REPIN by Location Range"]
     clicked= tk.StringVar()
@@ -247,7 +314,7 @@ def main():
     
     
     #Adding main Image
-    gentree=ImageTk.PhotoImage(Image.open("gentree.jpg"))
+    gentree=ImageTk.PhotoImage(Image.open("gentree2.jpg"))
     g_label= tk.Label(tree_frame,image=gentree)
     g_label.image=gentree
     g_label.place(relwidth=1,relheight=1)
