@@ -15,7 +15,7 @@ repin=[]
 treedot1=[
     "TR38","S24","TR18","TR39",
     "T5",
-    "S23","66",
+    "S23","66s",
     "TR36","6698","C50","P2"
 ]
 treedot2=[0,0,0,0,0,0,0,0,0,0,0]
@@ -32,6 +32,8 @@ def brain():
         s[3]=int(s[3])
         s[4]=int(s[4])
         s[5]=int(s[5])
+        if(s[1]=="chl66"):
+            s[1]="chl66s"
         s.pop(6)
         if(s[6][len(s[6])-1]=='\n'):
             s[6]=s[6][:-1]
@@ -208,6 +210,13 @@ def locgen(x):
     #addrepin(entry,rep_label)
 
 def locationinit():
+    x_pil=(Image.open("construction.jpg")).resize((250,130))
+    x=ImageTk.PhotoImage(x_pil)
+    x1 = tk.Label(s_frame,image=x,bg=blue)
+    x1.image=x
+    x1.place(relx=0,rely=0.15,relheight=0.5,relwidth=1)
+    
+    """
     sbox1=tk.Entry(s_frame,font=40)
     sbox1.place(relx=0.1,rely=0.1,relwidth=0.5,relheight=0.05)
     
@@ -215,10 +224,11 @@ def locationinit():
     go_button1.place(relx=0.12,rely=0.16)
     
     tk.Label(s_frame,text="Enter ONLY in the format 12345..12345.",bg=blue).place(relx=0.13,rely=0.25)
+    """
     
 def maininit():
     #tk.Label(s_frame,bg=blue).place(relx=0,rely=0,relwidth=1,relheight=1)
-    tk.Label(s_frame,bg=blue,text=f"Footnote:\nRed Dot-> Lost in evolution\nGreen Dot-> Gained in evolution",font=("Courier", 14)).place(relx=0,rely=0.85)
+    tk.Label(s_frame,bg=blue,text=f"Footnote:\nRed Dot-> Lost in evolution\nGreen Dot-> Gained in evolution",font=("Courier", 14,"bold")).place(relx=0,rely=0.85)
     
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
     lakme_frame.place(relx=0.313,rely=0.05,relheight=0.9,relwidth=0.65)
@@ -258,7 +268,7 @@ def firstsetup():
     clicked.set(options[0])
     
     drop = tk.OptionMenu(s_frame,clicked, *options,command=selected)
-    drop.place(relx=0.1,rely=0.04,relwidth=0.7,relheight=0.05)
+    drop.place(relx=0.08,rely=0.04,relwidth=0.86,relheight=0.05)
     #Till Here
 
 def main():
