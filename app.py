@@ -50,33 +50,57 @@ def repinapi(n1,n2,key):
         temp="green 12345678..12345678\ngreen 12345678..12345678"
     return temp
 
-def repdot(col,pos):
-    dotcol=[]
+def repdot(col,pos,dsl):
+    ddcol=[]
     
-    dotr_pil=(Image.open("reddot.png")).resize((25,25))
+    dotr_pil=(Image.open("ddred.png")).resize((25,25))
     dotr=ImageTk.PhotoImage(dotr_pil)
-    dotcol.append( tk.Label(lakme_frame,image=dotr) )
-    dotcol[0].image=dotr
+    ddcol.append( tk.Label(lakme_frame,image=dotr) )
+    ddcol[0].image=dotr
     
-    dotb_pil=(Image.open("bluedot.png")).resize((25,25))
+    dotb_pil=(Image.open("ddblue.png")).resize((25,25))
     dotb=ImageTk.PhotoImage(dotb_pil)
-    dotcol.append(tk.Label(lakme_frame,image=dotb))
-    dotcol[1].image=dotb
+    ddcol.append(tk.Label(lakme_frame,image=dotb))
+    ddcol[1].image=dotb
     
-    dotg_pil=(Image.open("greendot.png")).resize((25,25))
+    dotg_pil=(Image.open("ddgreen.png")).resize((25,25))
     dotg=ImageTk.PhotoImage(dotg_pil)
-    dotcol.append(tk.Label(lakme_frame,image=dotg))
-    dotcol[2].image=dotg
+    ddcol.append(tk.Label(lakme_frame,image=dotg))
+    ddcol[2].image=dotg
 
     fx=0.02
     fy=0.005
-    dotcol[col].place(relx=cx-fx,rely=cy[pos]-fy)
+    
+    scol=[]
+    
+    dotr_pil=(Image.open("sred.png")).resize((25,25))
+    dotr=ImageTk.PhotoImage(dotr_pil)
+    scol.append( tk.Label(lakme_frame,image=dotr) )
+    scol[0].image=dotr
+    
+    dotb_pil=(Image.open("sblue.png")).resize((25,25))
+    dotb=ImageTk.PhotoImage(dotb_pil)
+    scol.append(tk.Label(lakme_frame,image=dotb))
+    scol[1].image=dotb
+    
+    dotg_pil=(Image.open("sgreen.png")).resize((25,25))
+    dotg=ImageTk.PhotoImage(dotg_pil)
+    scol.append(tk.Label(lakme_frame,image=dotg))
+    scol[2].image=dotg
+
+    if(dsl==1):
+        ddcol[col].place(relx=cx-fx,rely=cy[pos]-fy)
+    elif(dsl==0):
+        scol[col].place(relx=cx-fx,rely=cy[pos]-fy)
+    else:
+        print(dsl)
+    
 
 def addrepin(rep_label):
     for i in range(len(rep_label)):
         for j in range(len(treedot1)):
             if(rep_label[i][1].count(treedot1[j])!=0):
-                repdot(rep_label[i][4],j)
+                repdot(rep_label[i][4],j,rep_label[i][5])
                 txt= str(rep_label[i][2])+".."+str(rep_label[i][3])
                 tk.Label(lakme_frame,text=txt).place(relx=cx+0.02,rely=cy[j])
 
@@ -228,7 +252,7 @@ def locationinit():
     
 def maininit():
     #tk.Label(s_frame,bg=blue).place(relx=0,rely=0,relwidth=1,relheight=1)
-    tk.Label(s_frame,bg=blue,text=f"Footnote:\nRed Dot-> Lost in evolution\nGreen Dot-> Gained in evolution",font=("Courier", 14,"bold")).place(relx=0,rely=0.85)
+    tk.Label(s_frame,bg=white,text=f"Footnote:\nBlack Dot-> Lost in evolution\nDouble Dot-> REPINS\nSingle Dot-> REP",font=("Courier", 14,"bold")).place(relx=0.05,rely=0.75)
     
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
     lakme_frame.place(relx=0.313,rely=0.05,relheight=0.9,relwidth=0.65)
