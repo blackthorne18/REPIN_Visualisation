@@ -68,7 +68,7 @@ def repdot(col,pos,dsl):
     ddcol.append(tk.Label(lakme_frame,image=dotg))
     ddcol[2].image=dotg
 
-    fx=0.02
+    fx=0.05
     fy=0.005
     
     scol=[]
@@ -89,29 +89,30 @@ def repdot(col,pos,dsl):
     scol[2].image=dotg
 
     if(dsl==1):
-        ddcol[col].place(relx=cx-fx,rely=cy[pos]-fy)
+        ddcol[col].place(relx=cx+fx,rely=cy[pos]-fy)
     elif(dsl==0):
-        scol[col].place(relx=cx-fx,rely=cy[pos]-fy)
+        scol[col].place(relx=cx+fx,rely=cy[pos]-fy)
     else:
         print(dsl)
     
 
 def addrepin(rep_label):
+    tx=0.094
     for i in range(len(rep_label)):
         for j in range(len(treedot1)):
             if(rep_label[i][1].count(treedot1[j])!=0):
                 repdot(rep_label[i][4],j,rep_label[i][5])
                 txt= str(rep_label[i][2])+".."+str(rep_label[i][3])
-                tk.Label(lakme_frame,text=txt).place(relx=cx+0.02,rely=cy[j])
+                tk.Label(lakme_frame,text=txt).place(relx=cx+tx,rely=cy[j])
 
 def addreddot(entry,key):
     #Called addreddot but actually adds a blackdot xD
     dotr_pil=(Image.open("blackdot.png")).resize((25,25))
     dotr=ImageTk.PhotoImage(dotr_pil)
     #0.490-0.447=0.043
-    dcx=0.17
+    dcx=0.175
     dcy=0.005
-    mx=[0.27,0.27,0.27,0.21]
+    mx=[0.25,0.25,0.25,0.187]
     my=[0.23,0.51,0.73,0.37]
         
     for i in range(len(entry)):
@@ -142,7 +143,7 @@ def tree_init():
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
     lakme_frame.place(relx=0.313,rely=0.05,relheight=0.9,relwidth=0.65)
     
-    gentree=ImageTk.PhotoImage(Image.open("gentree2.jpg"))
+    gentree=ImageTk.PhotoImage(Image.open("gentree2f.jpg"))
     g_label= tk.Label(lakme_frame,image=gentree)
     g_label.image=gentree
     g_label.place(relwidth=1,relheight=1)
@@ -257,7 +258,7 @@ def maininit():
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
     lakme_frame.place(relx=0.313,rely=0.05,relheight=0.9,relwidth=0.65)
     
-    gentree=ImageTk.PhotoImage(Image.open("gentree2.jpg"))
+    gentree=ImageTk.PhotoImage(Image.open("gentree2f.jpg"))
     g_label= tk.Label(lakme_frame,image=gentree)
     g_label.image=gentree
     g_label.place(relwidth=1,relheight=1)
