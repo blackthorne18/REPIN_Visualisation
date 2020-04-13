@@ -13,30 +13,34 @@ s_frame=None
 lakme_frame=None
 repin=[]
 treedot1=[
-    "TR38","S24","TR18","TR39",
-    "T5",
-    "S23","66s",
-    "TR36","6698","C50","P2"
+    "TAM",
+    "DSM",
+    "189", "174"
 ]
-treedot2=[0,0,0,0,0,0,0,0,0,0,0]
-cx=0.49
-cy=[0.125,0.2,0.27,0.34,0.413,0.481,0.55,0.625,0.695,0.77,0.835]
+treedot2=[0,0,0,0]
+cx=[0.135,0.375,0.595,0.875]
+cy=0.56
 
 def brain():
     global repin
-    f=(open("build/repinClusters.txt",'r')).readlines()
+    f=(open("build/repDSMTAM.txt",'r')).readlines()
     for i in f:
-        s=i.split('\t')
+        s=i.split(' ')
         s[0]=int(s[0])
-        s[2]=int(s[2])
         s[3]=int(s[3])
         s[4]=int(s[4])
-        s[5]=int(s[5])
-        if(s[1]=="chl66"):
-            s[1]="chl66s"
-        s.pop(6)
-        if(s[6][len(s[6])-1]=='\n'):
-            s[6]=s[6][:-1]
+        
+        if(s[2]=='red'):
+            s[2]=0
+        elif(s[2]=='blue'):
+            s[2]=1
+        elif(s[2]=='green'):
+            s[2]=2
+        elif(s[2]=='pink'):
+            s[2]=3
+                
+        if(s[5][len(s[5])-1]=='\n'):
+            s[5]=s[5][:-1]
         repin.append(s)
 
 def repinapi(n1,n2,key):
@@ -67,9 +71,14 @@ def repdot(col,pos,dsl):
     dotg=ImageTk.PhotoImage(dotg_pil)
     ddcol.append(tk.Label(lakme_frame,image=dotg))
     ddcol[2].image=dotg
+    
+    dotg_pil=(Image.open("build/ddpink.png")).resize((25,25))
+    dotg=ImageTk.PhotoImage(dotg_pil)
+    ddcol.append(tk.Label(lakme_frame,image=dotg))
+    ddcol[3].image=dotg
 
-    fx=0.05
-    fy=0.005
+    fx=0.06
+    fy=0.1
     
     scol=[]
     
@@ -87,63 +96,60 @@ def repdot(col,pos,dsl):
     dotg=ImageTk.PhotoImage(dotg_pil)
     scol.append(tk.Label(lakme_frame,image=dotg))
     scol[2].image=dotg
+    
+    dotg_pil=(Image.open("build/spink.png")).resize((25,25))
+    dotg=ImageTk.PhotoImage(dotg_pil)
+    scol.append(tk.Label(lakme_frame,image=dotg))
+    scol[2].image=dotg
 
     if(dsl==1):
-        ddcol[col].place(relx=cx+fx,rely=cy[pos]-fy)
+        ddcol[col].place(relx=cx[pos]-fx,rely=cy+fy)
     elif(dsl==0):
-        scol[col].place(relx=cx+fx,rely=cy[pos]-fy)
+        scol[col].place(relx=cx[pos]-fx,rely=cy+fy)
     else:
         print(dsl)
     
 
 def addrepin(rep_label):
-    tx=0.094
+    ty=0.11
+    tx=-0.015
     for i in range(len(rep_label)):
         for j in range(len(treedot1)):
             if(rep_label[i][1].count(treedot1[j])!=0):
-                repdot(rep_label[i][4],j,rep_label[i][5])
-                txt= str(rep_label[i][2])+".."+str(rep_label[i][3])
-                tk.Label(lakme_frame,text=txt).place(relx=cx+tx,rely=cy[j])
+                repdot(rep_label[i][2],j,1)
+                txt= str(rep_label[i][3])+".."+str(rep_label[i][4])
+                tk.Label(lakme_frame,text=txt).place(relx=cx[j]+tx,rely=cy+ty)
 
 def addreddot(entry,key):
     #Called addreddot but actually adds a blackdot xD
     dotr_pil=(Image.open("build/blackdot.png")).resize((25,25))
     dotr=ImageTk.PhotoImage(dotr_pil)
     #0.490-0.447=0.043
-    dcx=0.175
     dcy=0.005
-    mx=[0.25,0.25,0.25,0.187]
-    my=[0.23,0.51,0.73,0.37]
+    mx=[0.73,0.525]
+    my=[0.515,0.455]
         
     for i in range(len(entry)):
         rd = tk.Label(lakme_frame,image=dotr)
         rd.image=dotr
-        if(entry[i]<=3 and key[0]==0):
-            rd.place(relx=cx-dcx,rely=cy[entry[i]]-dcy)
-        elif(entry[i]==4 and key[1]==0):
-            rd.place(relx=cx-dcx,rely=cy[entry[i]]-dcy)
-        elif(entry[i]>4 and entry[i]<=6 and key[2]==0):
-            rd.place(relx=cx-dcx,rely=cy[entry[i]]-dcy)
-        elif(entry[i]>6 and entry[i]<=10 and key[3]==0):
-            rd.place(relx=cx-dcx,rely=cy[entry[i]]-dcy)
+        if(key[0]==0):
+            if(entry[i]==2 or entry[i]==3):
+                rd.place(relx=cx[entry[i]],rely=cy-dcy)
+        if(key[1]==0):
+            if(entry[i]==1 or entry[i]==0):
+                rd.place(relx=cx[entry[i]],rely=cy-dcy)
         
         if(entry[i]==110):
             rd.place(relx=mx[0],rely=my[0])
         elif(entry[i]==120):
-            rd.place(relx=cx-dcx,rely=cy[4]-dcy)
-        elif(entry[i]==130):
             rd.place(relx=mx[1],rely=my[1])
-        elif(entry[i]==150):
-            rd.place(relx=mx[3],rely=my[3])
-        elif(entry[i]==200):
-            rd.place(relx=mx[2],rely=my[2])
 
 def tree_init():
     global lakme_frame
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
     lakme_frame.place(relx=0.313,rely=0.05,relheight=0.9,relwidth=0.65)
     
-    gentree=ImageTk.PhotoImage(Image.open("build/gentree2f.jpg"))
+    gentree=ImageTk.PhotoImage(Image.open("build/gentree1.jpg"))
     g_label= tk.Label(lakme_frame,image=gentree)
     g_label.image=gentree
     g_label.place(relwidth=1,relheight=1)
@@ -159,7 +165,7 @@ def generate(entry):
     #rep_label=[[0,"chlT5",1234567,1234567,0],[0,"chlfdfS23",1234567,1234567,1],[0,"chl66",1234567,1234567,2]]
     
     global treedot2
-    treedot2=[0,0,0,0,0,0,0,0,0,0,0]
+    treedot2=[0,0,0,0]
     for i in range(len(rep_label)):
         for j in range(len(treedot1)):
             if(rep_label[i][1].count(treedot1[j])):
@@ -168,26 +174,20 @@ def generate(entry):
     
     entry=[]
     #110,120,130,200,150
-    key=[0,0,0,0]
-    if(treedot2[0]==0 and treedot2[1]==0 and treedot2[2]==0 and treedot2[3]==0):
-        entry.append(110)
-        key[0]+=1
-    if(treedot2[4]==0):
+    key=[0,0]
+    if(treedot2[2]==0 and treedot2[3]==0 and treedot2[1]==0):
         entry.append(120)
         key[1]+=1
-    if(treedot2[5]==0 and treedot2[6]==0):
-        entry.append(130)
-        key[2]+=1
-    if(treedot2[7]==0 and treedot2[8]==0 and treedot2[9]==0 and treedot2[10]==0):
-        entry.append(200)
-        key[3]+=1
-    if(entry.count(110)!=0 and entry.count(120)!=0 and entry.count(130)!=0):
-        entry=[150]
-
+        key[0]+=1
+    elif(treedot2[2]==0 and treedot2[3]==0):
+        entry.append(110)
+        key[0]+=1
+    
     for i in range(len(treedot2)):
         if(treedot2[i]==0):
             entry.append(i)
     
+    #print(rep_label)
     #print(entry, key)
     addreddot(entry,key)
     addrepin(rep_label)
@@ -258,7 +258,7 @@ def maininit():
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
     lakme_frame.place(relx=0.313,rely=0.05,relheight=0.9,relwidth=0.65)
     
-    gentree=ImageTk.PhotoImage(Image.open("build/gentree2f.jpg"))
+    gentree=ImageTk.PhotoImage(Image.open("build/gentree1.jpg"))
     g_label= tk.Label(lakme_frame,image=gentree)
     g_label.image=gentree
     g_label.place(relwidth=1,relheight=1)
@@ -279,7 +279,7 @@ def selected(event):
     return
 
 def firstsetup():
-    canvas = tk.Canvas(root,height=700,width=1000,bg="white")
+    canvas = tk.Canvas(root,height=700,width=1200,bg="white")
     canvas.pack()
     
     #Adding Frame for Search Panel
