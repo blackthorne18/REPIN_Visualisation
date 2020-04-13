@@ -24,7 +24,7 @@ cy=[0.125,0.2,0.27,0.34,0.413,0.481,0.55,0.625,0.695,0.77,0.835]
 
 def brain():
     global repin
-    f=(open("repinClusters.txt",'r')).readlines()
+    f=(open("build/repinClusters.txt",'r')).readlines()
     for i in f:
         s=i.split('\t')
         s[0]=int(s[0])
@@ -53,17 +53,17 @@ def repinapi(n1,n2,key):
 def repdot(col,pos,dsl):
     ddcol=[]
     
-    dotr_pil=(Image.open("ddred.png")).resize((25,25))
+    dotr_pil=(Image.open("build/ddred.png")).resize((25,25))
     dotr=ImageTk.PhotoImage(dotr_pil)
     ddcol.append( tk.Label(lakme_frame,image=dotr) )
     ddcol[0].image=dotr
     
-    dotb_pil=(Image.open("ddblue.png")).resize((25,25))
+    dotb_pil=(Image.open("build/ddblue.png")).resize((25,25))
     dotb=ImageTk.PhotoImage(dotb_pil)
     ddcol.append(tk.Label(lakme_frame,image=dotb))
     ddcol[1].image=dotb
     
-    dotg_pil=(Image.open("ddgreen.png")).resize((25,25))
+    dotg_pil=(Image.open("build/ddgreen.png")).resize((25,25))
     dotg=ImageTk.PhotoImage(dotg_pil)
     ddcol.append(tk.Label(lakme_frame,image=dotg))
     ddcol[2].image=dotg
@@ -73,17 +73,17 @@ def repdot(col,pos,dsl):
     
     scol=[]
     
-    dotr_pil=(Image.open("sred.png")).resize((25,25))
+    dotr_pil=(Image.open("build/sred.png")).resize((25,25))
     dotr=ImageTk.PhotoImage(dotr_pil)
     scol.append( tk.Label(lakme_frame,image=dotr) )
     scol[0].image=dotr
     
-    dotb_pil=(Image.open("sblue.png")).resize((25,25))
+    dotb_pil=(Image.open("build/sblue.png")).resize((25,25))
     dotb=ImageTk.PhotoImage(dotb_pil)
     scol.append(tk.Label(lakme_frame,image=dotb))
     scol[1].image=dotb
     
-    dotg_pil=(Image.open("sgreen.png")).resize((25,25))
+    dotg_pil=(Image.open("build/sgreen.png")).resize((25,25))
     dotg=ImageTk.PhotoImage(dotg_pil)
     scol.append(tk.Label(lakme_frame,image=dotg))
     scol[2].image=dotg
@@ -107,7 +107,7 @@ def addrepin(rep_label):
 
 def addreddot(entry,key):
     #Called addreddot but actually adds a blackdot xD
-    dotr_pil=(Image.open("blackdot.png")).resize((25,25))
+    dotr_pil=(Image.open("build/blackdot.png")).resize((25,25))
     dotr=ImageTk.PhotoImage(dotr_pil)
     #0.490-0.447=0.043
     dcx=0.175
@@ -143,7 +143,7 @@ def tree_init():
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
     lakme_frame.place(relx=0.313,rely=0.05,relheight=0.9,relwidth=0.65)
     
-    gentree=ImageTk.PhotoImage(Image.open("gentree2f.jpg"))
+    gentree=ImageTk.PhotoImage(Image.open("build/gentree2f.jpg"))
     g_label= tk.Label(lakme_frame,image=gentree)
     g_label.image=gentree
     g_label.place(relwidth=1,relheight=1)
@@ -235,7 +235,7 @@ def locgen(x):
     #addrepin(entry,rep_label)
 
 def locationinit():
-    x_pil=(Image.open("construction.jpg")).resize((250,130))
+    x_pil=(Image.open("build/construction.jpg")).resize((250,130))
     x=ImageTk.PhotoImage(x_pil)
     x1 = tk.Label(s_frame,image=x,bg=blue)
     x1.image=x
@@ -258,7 +258,7 @@ def maininit():
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
     lakme_frame.place(relx=0.313,rely=0.05,relheight=0.9,relwidth=0.65)
     
-    gentree=ImageTk.PhotoImage(Image.open("gentree2f.jpg"))
+    gentree=ImageTk.PhotoImage(Image.open("build/gentree2f.jpg"))
     g_label= tk.Label(lakme_frame,image=gentree)
     g_label.image=gentree
     g_label.place(relwidth=1,relheight=1)
