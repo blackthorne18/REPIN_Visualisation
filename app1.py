@@ -107,11 +107,11 @@ def addrepin(rep_label):
 
 def addreddot(entry,key):
     #Called addreddot but actually adds a blackdot xD
-    dotr_pil=(Image.open("build/blackdot.png")).resize((25,25))
+    dotr_pil=(Image.open("build/blackdot.png")).resize((20,20))
     dotr=ImageTk.PhotoImage(dotr_pil)
     #0.490-0.447=0.043
-    dcx=0.175
-    dcy=0.005
+    dcx=0.185
+    dcy=0.004
     mx=[0.25,0.25,0.25,0.187]
     my=[0.23,0.51,0.73,0.37]
         
@@ -143,7 +143,7 @@ def tree_init():
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
     lakme_frame.place(relx=0.313,rely=0.05,relheight=0.9,relwidth=0.65)
     
-    gentree=ImageTk.PhotoImage(Image.open("build/gentree2f.jpg"))
+    gentree=ImageTk.PhotoImage((Image.open("build/gentree2fr.jpg")).resize((536,524)))
     g_label= tk.Label(lakme_frame,image=gentree)
     g_label.image=gentree
     g_label.place(relwidth=1,relheight=1)
@@ -258,7 +258,7 @@ def maininit():
     lakme_frame= tk.Frame(root,bg="black",highlightbackground=blue,highlightcolor=blue, highlightthickness=2)
     lakme_frame.place(relx=0.313,rely=0.05,relheight=0.9,relwidth=0.65)
     
-    gentree=ImageTk.PhotoImage(Image.open("build/gentree2f.jpg"))
+    gentree=ImageTk.PhotoImage((Image.open("build/gentree2fr.jpg")).resize((536,524)))
     g_label= tk.Label(lakme_frame,image=gentree)
     g_label.image=gentree
     g_label.place(relwidth=1,relheight=1)
